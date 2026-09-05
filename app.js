@@ -100,6 +100,17 @@
     plot.appendChild(yLabel);
 
     const topId = scored[0].id;
+    const labelPlacement = {
+      a1: { dx: 10, dy: -10, anchor: "start" },
+      a2: { dx: 10, dy: -10, anchor: "start" },
+      a3: { dx: -10, dy: 18, anchor: "end" },
+      a23: { dx: -10, dy: -10, anchor: "end" },
+      b1: { dx: -10, dy: -10, anchor: "end" },
+      b2o: { dx: -10, dy: 18, anchor: "end" },
+      b2s: { dx: 10, dy: 20, anchor: "start" },
+      c3: { dx: 10, dy: -10, anchor: "start" }
+    };
+
     rows.forEach(row => {
       const group = svgNode("g", {
         class: `point${row.id === selectedId ? " selected" : ""}${row.id === topId ? " top" : ""}`,
@@ -110,7 +121,12 @@
       const cx = x(row.pred[family]);
       const cy = y(row.kl[family]);
       group.appendChild(svgNode("circle", { cx, cy, r: 7 }));
-      const text = svgNode("text", { x: cx + 10, y: cy - 9 });
+      const placement = labelPlacement[row.id];
+      const text = svgNode("text", {
+        x: cx + placement.dx,
+        y: cy + placement.dy,
+        "text-anchor": placement.anchor
+      });
       text.textContent = row.short;
       group.appendChild(text);
       const select = () => { selectedId = row.id; render(); };
