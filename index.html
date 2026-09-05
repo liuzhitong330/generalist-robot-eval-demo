@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A reproducible robot-evaluation brief built by Cathy Liu for Generalist's Research Assistant role.">
+  <title>When does an offline signal deserve a robot run?</title>
+  <link rel="stylesheet" href="styles.css?v=1">
+</head>
+<body>
+  <header class="masthead">
+    <a class="wordmark" href="#top">Cathy Liu</a>
+    <a class="quiet-link" href="#methods">Methods</a>
+  </header>
+
+  <main class="page" id="top">
+    <p class="eyebrow">Research note · September 2026</p>
+    <h1>When does an offline signal deserve a robot run?</h1>
+    <p class="dek">A transparent way to turn Generalist's published data-mixture measurements into the next controlled, decision-ready experiment.</p>
+    <p class="byline">Cathy Liu · University of Melbourne</p>
+
+    <nav class="section-nav" aria-label="Article sections">
+      <a href="#question">Question</a>
+      <a href="#screen">Offline screen</a>
+      <a href="#experiment">Robot experiment</a>
+      <a href="#methods">Methods</a>
+    </nav>
+
+    <p class="opening">Generalist's GEN-0 report compares eight physical-data mixtures across dexterity, applications, and generalization. The interesting result is not a universal winner. It is a set of metric conflicts that can make the next real-robot comparison more informative.</p>
+    <p>I built this brief to make that handoff explicit: screen the published measurements, expose the priority rule, then generate a blinded A/B protocol with a visible rollout budget.</p>
+
+    <hr id="question">
+    <section aria-labelledby="question-heading">
+      <h2 id="question-heading">The decision</h2>
+      <p>Which two data mixtures should earn the next scarce robot-evaluation slots, and what would make the result believable? Offline action-prediction metrics can nominate a contrast. They cannot establish real-world task success by themselves.</p>
+      <aside class="note"><strong>Source.</strong> Eight rows transcribed from Table 1 of Generalist's <a href="https://generalistai.com/blog/gen-0">GEN-0 report</a>. Lower is better for both reported metrics. No private trajectories, models, or systems are used.</aside>
+    </section>
+
+    <hr id="screen">
+    <section aria-labelledby="screen-heading">
+      <h2 id="screen-heading">1. Screen the offline evidence</h2>
+      <div class="experiment">
+        <div class="exp-label">Interactive analysis</div>
+        <div class="exp-title">Choose the task family and make the priority rule visible</div>
+        <p>The horizontal axis is validation prediction error; the vertical axis is reverse KL. Drag the weight to see whether a candidate remains useful when the decision changes.</p>
+      </div>
+
+      <div class="controls" aria-label="Offline-screen controls">
+        <div class="tabs" id="family-tabs" role="group" aria-label="Task family"></div>
+        <label class="range-label" for="prediction-weight">
+          <span>Priority rule</span>
+          <span id="weight-readout">70% prediction error · 30% reverse KL</span>
+        </label>
+        <input id="prediction-weight" type="range" min="0" max="100" step="10" value="70">
+      </div>
+
+      <figure class="figure-panel">
+        <svg id="mixture-plot" class="viz" viewBox="0 0 700 410" role="img" aria-labelledby="plot-title plot-desc">
+          <title id="plot-title">Data-mixture measurement plot</title>
+          <desc id="plot-desc">Eight data mixtures positioned by prediction error and reverse KL for the selected task family.</desc>
+        </svg>
+        <figcaption>Both axes are shown on the narrow range observed within the selected task family. Click or focus a point to inspect the exact source values.</figcaption>
+      </figure>
+
+      <div class="readout" id="selection-readout" aria-live="polite"></div>
+
+      <div class="metric-row" aria-label="Checked findings">
+        <div class="metric"><span class="metric-val">8</span><span class="metric-desc">published data mixtures</span></div>
+        <div class="metric"><span class="metric-val">3 / 6</span><span class="metric-desc">metric minima held by B · Class 2 skills</span></div>
+        <div class="metric"><span class="metric-val">0</span><span class="metric-desc">real-robot conclusions claimed here</span></div>
+      </div>
+
+      <h3>Priority order</h3>
+      <div class="ranking" id="ranking"></div>
+      <p class="small">The score min-max normalizes the two displayed metrics within one task family and applies the selected weight. It is a transparent screening heuristic, not a validated model-quality metric.</p>
+    </section>
+
+    <hr id="experiment">
+    <section aria-labelledby="experiment-heading">
+      <h2 id="experiment-heading">2. Convert the conflict into a robot experiment</h2>
+      <div class="experiment">
+        <div class="exp-label">Recommended contrast</div>
+        <div class="exp-title" id="contrast-title">Applications: B · Class 2 skills vs A · Class 2 + 3</div>
+        <p id="contrast-copy">One candidate leads on prediction error; the other leads on reverse KL. That disagreement is a reason to test, not a reason to average the metrics into certainty.</p>
+      </div>
+
+      <div class="plan-grid">
+        <div>
+          <h3>Primary decision</h3>
+          <p>Does the candidate prioritized by the current offline rule improve preregistered task success under held-out physical conditions?</p>
+        </div>
+        <div>
+          <h3>Controls</h3>
+          <p>Blind the evaluator; counterbalance model order; block by robot, end effector, object pose, material lot, operator, and time block.</p>
+        </div>
+        <div>
+          <h3>Secondary outcomes</h3>
+          <p>Completion time, interventions, recovery attempts, failure mode, and invalid-run reason. Report each condition before pooling.</p>
+        </div>
+        <div>
+          <h3>Stop rule</h3>
+          <p>Use the planned sample size. Do not stop on a favorable interim streak. Preserve excluded runs and their reasons.</p>
+        </div>
+      </div>
+
+      <h3>Plan the rollout budget</h3>
+      <p>Set the control success rate and the smallest absolute improvement worth detecting. The calculator uses a two-sided 5% test and 80% power with an equal-size normal approximation.</p>
+      <div class="calculator">
+        <label for="baseline-rate">Control success <output id="baseline-output">70%</output></label>
+        <input id="baseline-rate" type="range" min="20" max="90" step="5" value="70">
+        <label for="effect-size">Worthwhile improvement <output id="effect-output">10 points</output></label>
+        <input id="effect-size" type="range" min="5" max="25" step="1" value="10">
+        <div class="budget-result">
+          <span id="rollout-count">294</span>
+          <span>rollouts per model arm</span>
+        </div>
+        <p id="budget-note" class="small"></p>
+      </div>
+
+      <h3>Minimum run record</h3>
+      <div class="record" role="table" aria-label="Minimum fields for each robot rollout">
+        <div role="row"><span role="cell">Identity</span><span role="cell">run ID, model hash, policy/config version</span></div>
+        <div role="row"><span role="cell">Physical context</span><span role="cell">robot, hand/tool, fixture, object pose, material lot</span></div>
+        <div role="row"><span role="cell">Execution</span><span role="cell">operator, time block, randomization slot, reset procedure</span></div>
+        <div role="row"><span role="cell">Outcome</span><span role="cell">success, duration, intervention, recovery, failure code</span></div>
+        <div role="row"><span role="cell">Quality</span><span role="cell">sensor status, invalid reason, notes, media pointer</span></div>
+      </div>
+    </section>
+
+    <hr id="methods">
+    <section aria-labelledby="methods-heading">
+      <h2 id="methods-heading">Methods and limits</h2>
+      <p>The source table contains three validation prediction-error values and three reverse-KL values for each of eight data mixtures. This page computes task-specific ranks and a user-controlled weighted screen directly in the browser. The reproducible CSV, analysis script, and tests are included in the public repository.</p>
+      <p>The reported table has no sample sizes, uncertainty intervals, raw trajectories, or real-robot outcomes for each mixture. Therefore the screen only prioritizes experiments. The sample-size calculation is approximate and should be replaced by a preregistered design that accounts for repeated robots, tasks, and clustered conditions when those data are available.</p>
+
+      <h2>Why I built this</h2>
+      <p>I am strongest where careful physical execution meets quantitative reasoning: maintaining protocol discipline, documenting conditions, checking whether a result survives controls, and turning an analysis into the next experiment. I have not operated Generalist's robots; this is a compact demonstration of how I would reason about their evaluation.</p>
+
+      <p class="sources"><strong>Sources</strong><br>
+        Generalist Team, <a href="https://generalistai.com/blog/gen-0">GEN-0: Embodied Foundation Models That Scale with Physical Interaction</a>, 2025.<br>
+        Generalist Team, <a href="https://generalistai.com/blog/gen-1">GEN-1: Scaling Embodied Foundation Models to Mastery</a>, 2026.<br>
+        <a href="https://jobs.ashbyhq.com/generalist/fc7c7b49-248a-4849-a473-a0bd246e5486">Research Assistant role</a>, accessed September 5, 2026.
+      </p>
+    </section>
+
+    <footer>
+      Cathy Liu · University of Melbourne<br>
+      Independent application project · No affiliation with Generalist
+    </footer>
+  </main>
+
+  <script src="data.js?v=1"></script>
+  <script src="app.js?v=1"></script>
+</body>
+</html>
