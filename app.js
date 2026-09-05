@@ -103,7 +103,7 @@
     const labelPlacement = {
       a1: { dx: 10, dy: -10, anchor: "start" },
       a2: { dx: 10, dy: -10, anchor: "start" },
-      a3: { dx: -10, dy: 18, anchor: "end" },
+      a3: { dx: -10, dy: -18, anchor: "end" },
       a23: { dx: -10, dy: -10, anchor: "end" },
       b1: { dx: -10, dy: -10, anchor: "end" },
       b2o: { dx: -10, dy: 18, anchor: "end" },
