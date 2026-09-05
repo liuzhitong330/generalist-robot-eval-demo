@@ -121,14 +121,16 @@
       const cx = x(row.pred[family]);
       const cy = y(row.kl[family]);
       group.appendChild(svgNode("circle", { cx, cy, r: 7 }));
-      const placement = labelPlacement[row.id];
-      const text = svgNode("text", {
-        x: cx + placement.dx,
-        y: cy + placement.dy,
-        "text-anchor": placement.anchor
-      });
-      text.textContent = row.short;
-      group.appendChild(text);
+      if (row.id === selectedId || row.id === topId) {
+        const placement = labelPlacement[row.id];
+        const text = svgNode("text", {
+          x: cx + placement.dx,
+          y: cy + placement.dy,
+          "text-anchor": placement.anchor
+        });
+        text.textContent = row.short;
+        group.appendChild(text);
+      }
       const select = () => { selectedId = row.id; render(); };
       group.addEventListener("click", select);
       group.addEventListener("keydown", event => {
