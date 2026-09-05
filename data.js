@@ -1,0 +1,10 @@
+window.GENERALIST_DATA = [
+  { id: "a1", short: "A · Class 1", mixture: "Partner A · Class 1", pred: { dexterity: 0.00307682, applications: 0.00334155, generalization: 0.00308992 }, kl: { dexterity: 0.00200585, applications: 0.00258898, generalization: 0.00198088 } },
+  { id: "a2", short: "A · Class 2", mixture: "Partner A · Class 2", pred: { dexterity: 0.00306196, applications: 0.00333253, generalization: 0.00306503 }, kl: { dexterity: 0.00188744, applications: 0.00244642, generalization: 0.00193866 } },
+  { id: "a3", short: "A · Class 3", mixture: "Partner A · Class 3", pred: { dexterity: 0.00305728, applications: 0.00331309, generalization: 0.00305888 }, kl: { dexterity: 0.00198332, applications: 0.00246089, generalization: 0.00190205 } },
+  { id: "a23", short: "A · Class 2 + 3", mixture: "Partner A · Class 2 + 3", pred: { dexterity: 0.00315980, applications: 0.00341899, generalization: 0.00315661 }, kl: { dexterity: 0.00184110, applications: 0.00228588, generalization: 0.00185473 } },
+  { id: "b1", short: "B · Class 1", mixture: "Partner B · Class 1", pred: { dexterity: 0.00302728, applications: 0.00330365, generalization: 0.00304627 }, kl: { dexterity: 0.00189286, applications: 0.00246051, generalization: 0.00192307 } },
+  { id: "b2o", short: "B · Class 2 objects", mixture: "Partner B · Class 2 objects", pred: { dexterity: 0.00314415, applications: 0.00341147, generalization: 0.00315975 }, kl: { dexterity: 0.00184719, applications: 0.00233209, generalization: 0.00186721 } },
+  { id: "b2s", short: "B · Class 2 skills", mixture: "Partner B · Class 2 skills", pred: { dexterity: 0.00301995, applications: 0.00329235, generalization: 0.00305292 }, kl: { dexterity: 0.00182561, applications: 0.00242293, generalization: 0.00190308 } },
+  { id: "c3", short: "C · Class 3", mixture: "Partner C · Class 3", pred: { dexterity: 0.00306247, applications: 0.00332128, generalization: 0.00307944 }, kl: { dexterity: 0.00192134, applications: 0.00236901, generalization: 0.00190956 } }
+];
